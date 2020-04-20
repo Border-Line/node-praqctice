@@ -7,6 +7,7 @@ For each example, just run below script to see demo
 ```sh
 # install dependency
 npm i
+
 # run
 node --inspect xxx.js # open localhost:1122
 ```
