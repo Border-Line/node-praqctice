@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>OS</title>
+  </head>
+  <body style="padding: 80px;">
+    <h2>🎴🎴🃏 Laptop Status</h2>
+    <div id="app">
+      <transition-group name="fade">
+        <p v-for="(value,key) in os" :key="key">
+          <span
+            style="
+              display: inline-block;
+              width: 80px;
+              text-align: right;
+              color: chocolate;
+              margin-right: 20px;
+            "
+            >{{key}}</span
+          ><span style="display: inline-block;">{{value}}</span>
+        </p>
+      </transition-group>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+      var app = new Vue({
+        el: '#app',
+        data: {
+          os: {
+            date: '-',
+            tmpdir: '-', //返回操作系统的默认临时文件夹。
+            uptime: '-',
+            endianness: '-', //返回 CPU 的字节序，可能的是 "BE" 或 "LE"。
+            hostname: '-', //返回操作系统的主机名。
+            type: '-', //返回操作系统名
+            platform: '-', //返回操作系统名
+            arch: '-', //返回操作系统 CPU 架构，可能的值有 "x64"、"arm" 和 "ia32"。
+            release: '-', //返回操作系统的发行版本。
+            loadavg: '-', //返回一个包含 1、5、15 分钟平均负载的数组。
+            totalmem: '-', //返回系统内存总量，单位为字节
+            freemem: '-', //返回操作系统空闲内存量，单位是字节。
+          },
+        },
+      })
+      let ws = new WebSocket('ws://localhost:8001')
+      ws.onopen = function (evt) {
+        console.log('Open')
+        ws.send('get os data.')
+      }
+      ws.onmessage = function (evt) {
+        // console.log('Received Message: ' + evt.data)
+        app.os = JSON.parse(evt.data)
+      }
+
+      ws.onclose = function (evt) {
+        console.log('Connection closed.')
+      }
+    </script>
+  </body>
+</html>

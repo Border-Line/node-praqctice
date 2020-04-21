@@ -21,6 +21,7 @@ const router = (path) => {
   let rMap = {
     '/a': 'a.html',
     '/b': 'b.html',
+    '/cjw': 'cjw.html'
   }
   let toPath = rMap[path] || defaultPage
   return fs.readFileSync(`page/${toPath}`)
